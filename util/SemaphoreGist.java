@@ -12,11 +12,9 @@ public class SemaphoreGist {
     public static void main(String[] argv) throws Exception {
         final Semaphore[] semaphoreArray = new Semaphore[100];
 
-        semaphoreArray[0] = new Semaphore(0);
-        // ……
-        semaphoreArray[51] = new Semaphore(0);
-        // ……
-        semaphoreArray[99] = new Semaphore(0);
+        for (int i = 0; i < semaphoreArray.length; i++) {
+            semaphoreArray[i] = new Semaphore(0);
+        }
 
         ExecutorService e = Executors.newFixedThreadPool(2);
 
