@@ -1,7 +1,7 @@
 package com.creditease.tradematch.tmfront.gist.util;
 
 import com.creditease.tradematch.domain.DebtSet;
-import com.creditease.tradematch.domain.TransferFormRequest;
+import com.creditease.tradematch.domain.TransferFormReq;
 import com.creditease.tradematch.tmfront.dto.TransferReq;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
@@ -29,14 +29,16 @@ public class OrikaGist {
 
         MapperFactory mapperFactory = new DefaultMapperFactory.Builder().mapNulls(false).build();
 
-        mapperFactory.classMap(TransferReq.class, TransferFormRequest.class)
+        mapperFactory.classMap(TransferReq.class, TransferFormReq.class)
                 .fieldAToB("requestId", "financeFormId")
                 .exclude("investProductType")
                 .exclude("isTotal")
                 .exclude("isSplit")
                 .exclude("isPartSuccess")
+                .exclude("matchId")
                 .byDefault(MappingDirection.A_TO_B)
                 .register();
+
 
         mapperFactory.classMap(TransferReq.DebtSet.class, DebtSet.class)
                 .exclude("debtSignType")
@@ -50,14 +52,14 @@ public class OrikaGist {
                 .byDefault(MappingDirection.A_TO_B)
                 .register();
 
-        BoundMapperFacade<TransferReq, TransferFormRequest> boundMapper = mapperFactory.getMapperFacade(TransferReq.class, TransferFormRequest.class, false);
+        BoundMapperFacade<TransferReq, TransferFormReq> boundMapper = mapperFactory.getMapperFacade(TransferReq.class, TransferFormReq.class, false);
 
-        TransferFormRequest apamaReq = boundMapper.map(req);
+        TransferFormReq apamaReq = boundMapper.map(req);
 
         System.out.println(ReflectionToStringBuilder.toString(apamaReq, ToStringStyle.MULTI_LINE_STYLE));
         System.out.println(ReflectionToStringBuilder.toString(apamaReq.getDebtSet().get(0), ToStringStyle.MULTI_LINE_STYLE));
         System.out.println(ReflectionToStringBuilder.toString(apamaReq.getDebtSet().get(1), ToStringStyle.MULTI_LINE_STYLE));
 
-        mapperFactory.getMapperFacade(TransferReq.class, TransferFormRequest.class, false);
+        mapperFactory.getMapperFacade(TransferReq.class, TransferFormReq.class, false);
     }
 }
